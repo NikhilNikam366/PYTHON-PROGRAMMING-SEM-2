@@ -6,9 +6,9 @@ Created on Mon Mar  9 14:45:31 2026
 """
 
 
+set1 = set(map(int, input("Enter elements of first set  (space-separated): ").split(',')))
+set2 = set(map(int, input("Enter elements of second set (space-separated): ").split(',')))
 
-set1 = set(map(int, input("Enter elements of first set (space-separated): ").split()))
-set2 = set(map(int, input("Enter elements of second set (space-separated): ").split()))
 
 union_set = set1 | set2 
 
