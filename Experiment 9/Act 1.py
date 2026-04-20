@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+#  Use math module to calculate EMI interest
 """
 Created on Mon Apr 20 09:19:47 2026
 
