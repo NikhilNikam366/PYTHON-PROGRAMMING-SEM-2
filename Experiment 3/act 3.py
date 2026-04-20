@@ -1,4 +1,4 @@
- Code for EMI calculation
+ # Code for EMI calculation
 """
 Created on Mon Feb 16 15:37:34 2026
 
