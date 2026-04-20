@@ -17,5 +17,4 @@ for copy in range(1, copies + 1):
         
     print("-----------------------")
     
-print("\nAll receipts printed successfully!")
-10
+print("\nAll receipts printed successfully!") 
