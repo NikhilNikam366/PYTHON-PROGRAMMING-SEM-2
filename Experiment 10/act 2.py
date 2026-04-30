@@ -31,3 +31,8 @@ st.error("Height must be greater than 0")
 st.markdown(" --- ")
 st. subheader("
 BMI Categories")
+st.write("""
+- Underweight: BMI < 18.5
+- Normal weight: 18.5 - 24.9
+- Overweight: 25 - 29.9
+- Obese: BMI ≥ 30
