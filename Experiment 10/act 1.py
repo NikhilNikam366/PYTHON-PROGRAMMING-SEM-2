@@ -28,3 +28,9 @@ st. subheader(" Bill Details")
 total bill = 0
 if st.session_state.items:
 for i, item in enumerate(st.session_state.items, 1):
+  for i, item in enumerate(st.session_state.items, 1):
+st.write(f"{i}. {item['name']} - ${item['price']} x {item['quantity']} = ${item['total']}")
+total_bill += item["total"]
+
+st.markdown(" --- ")
+st.subheader(f" Total Bill: ${total_bill :. 2f}")
