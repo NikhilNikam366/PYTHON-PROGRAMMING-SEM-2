@@ -1,3 +1,10 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Thu May  7 00:19:22 2026
+
+@author: NIKHIL NIKAM
+"""
+
 import streamlit as st
 
 # Title and header
@@ -11,7 +18,7 @@ color = st.selectbox("Choose your favorite color:", ["Red", "Blue", "Green"])
 
 # Button
 if st.button("Submit"):
-st.success("Data submitted successfully!")
+ st.success("Data submitted successfully!")
 
 st.write("Name:", name)
 st.write("Age:", age)
