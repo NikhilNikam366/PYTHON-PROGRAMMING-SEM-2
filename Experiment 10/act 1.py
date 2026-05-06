@@ -1,43 +1,64 @@
-# -*- coding: utf-8 -*-
-Created on Fri May 1 01:53:36 2026
+#Create a Streamlit grocery bill calculator.
+"""
+Created on Mon Apr 27 15:41:58 2026
+
 @author: NIKHIL NIKAM
+"""
+
 import streamlit as st
-st.title(" Grocery Bill Calculator")
-# Initialize session state to store items
-if "items" not in st.session_state:
-st.session_state.items = []
-# Input fields
-st. subheader("Add Grocery Item")
-name = st.text_input("Item Name")
-price = st.number_input("Price per item ($)", min_value=0.0, step=0.1)
-quantity = st.number_input("Quantity", min_value=1, step=1)
-# Add item button
-if st.button("Add Item"):
-if name:
-total_price = price * quantity
-st.session_state. items .append({
-"name": name,
-"price": price,
-"quantity": quantity,
-"total": total_price
-st.success(f"{name} added successfully!")
-else:
-st.warning("Please enter item name.")
-# Display items
-st. subheader(" Bill Details")
-total bill = 0
-if st.session_state.items:
-for i, item in enumerate(st.session_state.items, 1):
-  for i, item in enumerate(st.session_state.items, 1):
-st.write(f"{i}. {item['name']} - ${item['price']} x {item['quantity']} = ${item['total']}")
-total_bill += item["total"]
+import pandas as pd
 
-st.markdown(" --- ")
-st.subheader(f" Total Bill: ${total_bill :. 2f}")
-for i, item in enumerate(st.session_state.items, 1):
-st.write(f"{i}. {item['name']} - ${item['price']} x {item['quantity']} = ${item['total']}")
-total_bill += item["total"]
+st.set_page_config(page_title="Grocery Bill Calculator", page_icon="🛒")
 
-st.markdown(" --- ")
-st.subheader(f" Total Bill: ${total_bill :. 2f}")
+st.title("🛒 Grocery Bill Calculator")
+st.write("Add your items below to calculate the total cost.")
+
+# Initialize a default dataframe in session state if it doesn't exist
+if 'df' not in st.session_state:
+    st.session_state.df = pd.DataFrame(
+        [
+            {"Item": "Milk", "Quantity": 1, "Price per Unit": 3.50},
+            {"Item": "Bread", "Quantity": 2, "Price per Unit": 2.20},
+        ]
+    )
+
+# The Data Editor: allows users to add/delete/edit rows
+edited_df = st.data_editor(
+    st.session_state.df,
+    num_rows="dynamic",
+    column_config={
+        "Item": st.column_config.TextColumn("Item Name", help="What are you buying?", width="medium"),
+        "Quantity": st.column_config.NumberColumn("Qty", min_value=1, step=1),
+        "Price per Unit": st.column_config.NumberColumn("Price ()", min_value=0.0, format="%.2f"),
+    },
+    use_container_width=True,
+    key="grocery_editor"
+)
+
+# Calculations
+if not edited_df.empty:
+    # Ensure numeric types for calculation
+    qty = pd.to_numeric(edited_df["Quantity"], errors='coerce').fillna(0)
+    price = pd.to_numeric(edited_df["Price per Unit"], errors='coerce').fillna(0)
+   
+    total_cost = (qty * price).sum()
+    item_count = qty.sum()
+
+    st.divider()
+
+    # Display Results
+    col1, col2 = st.columns(2)
+    with col1:
+        st.metric("Total Items", int(item_count))
+    with col2:
+        st.metric("Total Cost", f"{total_cost:,.2f}")
+
+    # Optional: Tax Calculation
+    with st.expander("Add Tax/Discounts"):
+        tax_rate = st.slider("Tax Rate (%)", 0, 15, 0)
+        tax_amount = total_cost * (tax_rate / 100)
+        final_total = total_cost + tax_amount
+        st.write(f"**Tax Amount:** {tax_amount:.2f}")
+        st.subheader(f"Grand Total: {final_total:.2f}")
 else:
+    st.info("Add an item to get started!")
